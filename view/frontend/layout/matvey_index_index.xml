@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="css/switchStyles"/>
+    </head>
     <referenceContainer name="content">
-        <block class="Magento\Framework\View\Element\Template" name="matvey_index_index"
-               template="Matvey_Input::index.phtml"/>
+            <block class="Matvey\Input\Block\AddToCardProduct" name="matvey_index_index" template="Matvey_Input::index.phtml">
+                <block class="Matvey\Input\Block\AddToCardProduct" name="matvey_index_search" template="Matvey_Input::search.phtml"/>
+            </block>
     </referenceContainer>
 </page>

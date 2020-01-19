@@ -12,4 +12,7 @@
             <argument name="resourceModel" xsi:type="string">Matvey\Input\Model\ResourceModel\Post</argument>
         </arguments>
     </virtualType>
+    <type name="Magento\Checkout\Controller\Cart\Add">
+        <plugin sortOrder="10" disabled="false" name="Matvey_Input::set_productId_plugin" type="Matvey\Input\Plugin\AddToCartPlugin"/>
+    </type>
 </config>

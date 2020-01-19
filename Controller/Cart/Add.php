@@ -44,8 +44,7 @@ class Add extends Action
         ProductRepositoryInterface $productRepository,
         Context $context,
         PageFactory $pageFactory
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->formKey = $formKey;
         $this->cart = $cart;
@@ -59,22 +58,25 @@ class Add extends Action
     public function execute()
     {
         try {
-            $sku = $this->getRequest()->getParam('skuProduct', false);
+        $sku = $this->getRequest()->getParam('skuProduct', false);
+        $arrSkuProducts = explode(',', $sku);
+        for ($i = 0; $i < count($arrSkuProducts); $i++){
+            $sku = $arrSkuProducts[$i];
             $product = $this->initProduct($sku);
+            if ($this->validateProduct($product)) {
+                $this->addToCard($product);
+                $this->messageManager->addSuccessMessage(__('Product already add to card'));
+            }
+            else {
+                $this->messageManager->addErrorMessage(__('Please, enter the SKU only for Simple product'));
+                break;
+            }
         }
+    }
         catch(\Magento\Framework\Exception\LocalizedException $exception) {
             $this->messageManager->addErrorMessage(__("Unknown product"));
 
             return $this->goBack();
-        }
-
-        if ($this->validateProduct($product)) {
-            $this->addToCard($product);
-            $this->messageManager->addSuccessMessage(__('Product already add to card'));
-        }
-
-        else {
-            $this->messageManager->addErrorMessage(__('Please, enter the SKU only for Simple product'));
         }
 
         return $this->goBack();
@@ -128,9 +130,11 @@ class Add extends Action
      */
     protected function goBack()
     {
-        $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+        if(!$this->getRequest()->isAjax()) {
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $resultRedirect->setUrl($this->_redirect->getRefererUrl());
 
-        return $resultRedirect;
+            return $resultRedirect;
+        }
     }
 }

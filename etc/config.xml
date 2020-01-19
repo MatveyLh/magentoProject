@@ -6,6 +6,10 @@
                 <enable>1</enable>
                 <display_text>Hello World</display_text>
             </general>
+            <frontend>
+                <set_id_form>formSku</set_id_form>
+                <selector_input_name>skuProduct</selector_input_name>
+            </frontend>
         </input>
     </default>
 </config>

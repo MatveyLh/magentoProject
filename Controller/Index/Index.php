@@ -35,11 +35,11 @@ class Index extends Action
      */
     public function execute() {
 
-        if($this->getRequest()->isXmlHttpRequest()) {
+/*        if($this->getRequest()->isXmlHttpRequest()) {
             $this->getResponse()->setStatusHeader(403, '1.1', 'Forbidden');
 
             return null;
-        }
+        }*/
 
         return $this->pageFactory->create();
     }
