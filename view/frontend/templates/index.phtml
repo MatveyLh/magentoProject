@@ -10,7 +10,7 @@
     <input name="form_key" value="XlVzRwFuQkeJPA5n" hidden>
 </form>
 <script>
-    function myFunction() {
+    function changeAttributes() {
 
         if(document.getElementById('spa').classList.contains("slider")) {
             document.getElementsByClassName("slider")[0].setAttribute("class","sliderOne round");
@@ -34,7 +34,7 @@
 
 <span>Use AJAX method: </span>
 <label class="switch">
-    <input type="checkbox" class="checkbox" onclick="myFunction()" checked>
+    <input type="checkbox" class="checkbox" onclick="changeAttributes()" checked>
     <span class="slider round" id="spa"></span>
 </label>
 <span id="toggle"></span>
