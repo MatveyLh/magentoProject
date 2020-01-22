@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="css/switchStyles"/>
+        <css src="Matvey_Input::css/switchStyles.css"/>
     </head>
     <referenceContainer name="content">
             <block class="Matvey\Input\Block\AddToCardProduct" name="matvey_index_index" template="Matvey_Input::index.phtml">

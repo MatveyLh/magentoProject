@@ -1,9 +1,8 @@
 <?php
 namespace Matvey\Input\Plugin;
 
-use Magento\Checkout\Controller\Cart\Add;
 use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Framework\App\Action\Action;
+use Magento\Checkout\Controller\Cart\Add;
 
 /**
  * Class AccountManagementPlugin
@@ -22,10 +21,13 @@ class AddToCartPlugin
 
     public function beforeExecute(Add $subject)
     {
-        $sku = $subject->getRequest()->getParam('skuProduct',false);
+
+        $sku = $subject->getRequest()->getParam('skuProducts',false);
+        //TODO:: type: "Magento\Framework\Exception\NoSuchEntityException"
         $product = $this->productRepository->get($sku);
         $productId = $product->getId();
-        $subject->getRequest()->setParam('product',$productId);
+        $subject->getRequest()->setParam('product', $productId);
+
         return [];
     }
 }

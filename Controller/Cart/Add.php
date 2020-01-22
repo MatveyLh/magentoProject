@@ -2,12 +2,13 @@
 
 namespace Matvey\Input\Controller\Cart;
 
-use Magento\Framework\Data\Form\FormKey;
-use Magento\Checkout\Model\Cart;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Checkout\Model\Cart;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Add extends Action
 {
@@ -33,12 +34,12 @@ class Add extends Action
     private $pageFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     private $storeManager;
 
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
         FormKey $formKey,
         Cart $cart,
         ProductRepositoryInterface $productRepository,
@@ -58,21 +59,28 @@ class Add extends Action
     public function execute()
     {
         try {
-        $sku = $this->getRequest()->getParam('skuProduct', false);
-        $arrSkuProducts = explode(',', $sku);
-        for ($i = 0; $i < count($arrSkuProducts); $i++){
-            $sku = $arrSkuProducts[$i];
-            $product = $this->initProduct($sku);
-            if ($this->validateProduct($product)) {
-                $this->addToCard($product);
-                $this->messageManager->addSuccessMessage(__('Product already add to card'));
+            $sku = $this->getRequest()->getParam('skuProducts', false);
+            // TODO:: проверку на налл
+            if ($sku === null) {
+                $this->messageManager->addErrorMessage("Invalid SKU");
             }
             else {
-                $this->messageManager->addErrorMessage(__('Please, enter the SKU only for Simple product'));
-                break;
+                $arrSkuProducts = explode(',', $sku);
+                for ($i = 0; $i < count($arrSkuProducts); $i++){
+                    $sku = $arrSkuProducts[$i];
+                    $product = $this->initProduct($sku);
+                    if ($this->validateProduct($product)) {
+                        $this->addToCard($product);
+                        $this->messageManager->addSuccessMessage(__('Product already add to card'));
+                    }
+                    else {
+                        $this->messageManager->addErrorMessage(__('Please, enter the SKU only for Simple product'));
+                        $this->messageManager->addErrorMessage(__("SKU is not valid"));
+                        continue;
+                    }
+                }
             }
         }
-    }
         catch(\Magento\Framework\Exception\LocalizedException $exception) {
             $this->messageManager->addErrorMessage(__("Unknown product"));
 
@@ -89,9 +97,8 @@ class Add extends Action
      */
     protected function initProduct($sku)
     {
-        $product = $this->productRepository->get($sku);
 
-        return $product;
+        return $this->productRepository->get($sku);
     }
 
     /**
@@ -101,11 +108,7 @@ class Add extends Action
     protected function validateProduct($product)
     {
 
-        if (!$product || $product->getTypeId() !== 'simple') {
-            return false;
-        }
-
-        return true;
+        return ($product && $product->getTypeId() === 'simple');
     }
 
     /**

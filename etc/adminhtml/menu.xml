@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
        <menu>
-       <add id="Matvey_Input::menu" title="Custom Menu" module="Matvey_Input" sortOrder="10" resource="Matvey_Input::create"/>
-       <add id="Matvey_Input::menu_item" title="Create URLs" module="Matvey_Input" sortOrder="10" parent="Matvey_Input::menu" action="input/create/index" resource="Matvey_Input::menu_item"/>
+           <add id="Matvey_Input::menu" title="Custom Menu" module="Matvey_Input" sortOrder="10" resource="Matvey_Input::create"/>
+           <add id="Matvey_Input::menu_item" title="Create URLs" module="Matvey_Input" sortOrder="10" parent="Matvey_Input::menu" action="input/create/index" resource="Matvey_Input::menu_item"/>
+            <add id="Matvey_Input::menu_grid" title="Admin Grid" module="Matvey_Input" sortOrder="15" parent="Matvey_Input::menu" action="input/create/index" resource="Matvey_Input::menu_grid"/>
        </menu>
 </config>

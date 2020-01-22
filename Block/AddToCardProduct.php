@@ -3,53 +3,72 @@
 namespace Matvey\Input\Block;
 
 use Magento\Framework\Controller\Result\JsonFactory;
-use Composer\Config;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 use Matvey\Input\Model\ConfigProvider;
-use Magento\Framework\Json\Helper\Data;
 
-class AddToCardProduct extends \Magento\Framework\View\Element\Template
+class AddToCardProduct extends Template
 {
 
+    /**
+     * @var JsonFactory
+     */
     protected $resultJsonFactory;
 
+    /**
+     * @var ConfigProvider
+     */
     protected $configs;
 
+    /**
+     * @var
+     */
     protected $jsonHelper;
 
+    /**
+     * @var
+     */
+    protected $formKey;
+
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
+        Context $context,
         ConfigProvider $configs,
         JsonFactory $resultJsonFactory,
-        Data $jsonHelper,
+
         array $data = []
     ) {
-        $this->jsonHelper = $jsonHelper;
+
         $this->configs = $configs;
         $this->resultJsonFactory = $resultJsonFactory;
         parent::__construct($context, $data);
+        // TODO:: add code
     }
 
 
+    /**
+     * @return mixed
+     */
     public function getSelectorForm()
     {
-        $formId = $this->configs->getFormId();
 
-        return $formId;
+        return $this->configs->getFormId();
     }
 
+    /**
+     * @return mixed
+     */
     public function getInputName()
     {
-        $nameInput = $this->configs->getNameInput();
 
-        return $nameInput;
+        return $this->configs->getNameInput();
     }
 
-    public function getFormWidgetJSONConfig()
+    /**
+     * @return mixed
+     */
+    public function getFormKey()
     {
-        $formIdJSON = $this->configs->getFormId();
-        $nameInputJSON = $this->configs->getNameInput();
-        $dataJSON = [$formIdJSON,$nameInputJSON];
 
-        return $this->jsonHelper->jsonEncode($dataJSON);
+        return $this->formKey->getFormKey();
     }
 }

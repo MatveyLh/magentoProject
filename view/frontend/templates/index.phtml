@@ -1,48 +1,33 @@
 <?php
 /** @var \Matvey\Input\Block\AddToCardProduct $block **/
+// TODO:: formatting
 ?>
+
 <form autocomplete="off" method="post" id="<?= $block->getSelectorForm(); ?>" action="/matvey/cart/add">
     <input id="skuProduct" name="<?= $block->getInputName() ?>" type="text"/>
     <button type="submit" title="Add to Cart" class="action tocart primary">
         <span>Add to Cart</span>
     </button>
     <div class="products" style="width:8%; cursor: pointer; border: 1px solid #000000; margin-top:-3%"></div>
-    <input name="form_key" value="XlVzRwFuQkeJPA5n" hidden>
+    <input name="form_key" hidden>
 </form>
-<script>
-    function changeAttributes() {
 
-        if(document.getElementById('spa').classList.contains("slider")) {
-            document.getElementsByClassName("slider")[0].setAttribute("class","sliderOne round");
-            document.getElementById('toggle').innerHTML = "  &nbsp; No";
-        }else{
-            document.getElementsByClassName("sliderOne")[0].setAttribute("class","slider round");
-            document.getElementById('toggle').innerHTML = "  &nbsp; Yes";
-        }
-    }
-</script>
+<div style="margin-top: 4%">
+    <span>Use AJAX method: </span>
+    <label class="switch">
+        <input type="checkbox" id="checkbox" checked>
+        <span class="slider round" id="spa"></span>
+    </label>
+    <span id="toggle"></span>
+</div>
 
 <script type="text/x-magento-init">
     {
         "*": {
-           "Matvey_Input/js/ajaxSku": {"formSku":"skuProduct"}
+           "Matvey_Input/js/ajaxSku": {"selectorSkuForm":"<?= $block->getSelectorForm(); ?>",
+                                       "selectorInputName":"<?= $block->getInputName() ?>"}
         }
     }
 </script>
 
-
-
-<span>Use AJAX method: </span>
-<label class="switch">
-    <input type="checkbox" class="checkbox" onclick="changeAttributes()" checked>
-    <span class="slider round" id="spa"></span>
-</label>
-<span id="toggle"></span>
-
 <?= $block->getChildHtml(); ?>
-
-
-<style>
-
-
-</style>

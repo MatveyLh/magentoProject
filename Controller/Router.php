@@ -9,14 +9,13 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\RouterInterface;
-use Magento\Mtf\Config\FileResolver\ScopeConfig;
 
 /**
  * Class Router
  */
 class Router implements RouterInterface
 {
-    const XML_PATH_INPUT = 'input/';
+
     /**
      * @var ActionFactory
      */
@@ -26,6 +25,11 @@ class Router implements RouterInterface
      * @var ResponseInterface
      */
     private $response;
+
+    /**
+     * @var ScopeConfigInterface
+     */
+    protected $scopeConfig;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -43,7 +47,6 @@ class Router implements RouterInterface
      */
     public function match(RequestInterface $request) {
         $identifier = trim($request->getPathInfo(), '/');
-
         $url = $this->scopeConfig->getValue('input/general/display_text');
 
         $re = '/'.$url.'\.(html|htm|[a-zA-Z]\w{1,3})$/m';
@@ -54,7 +57,7 @@ class Router implements RouterInterface
             $request->setControllerName('index');
             $request->setActionName('index');
 
-            return $this->actionFactory->create(Forward::class, ['request' => $request]);
+            return $this->actionFactory->create(Forward::class);
         }
 
         return null;
