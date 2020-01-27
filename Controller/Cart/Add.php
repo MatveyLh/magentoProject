@@ -60,7 +60,7 @@ class Add extends Action
     {
         try {
             $sku = $this->getRequest()->getParam('skuProducts', false);
-            // TODO:: проверку на налл
+
             if ($sku === null) {
                 $this->messageManager->addErrorMessage("Invalid SKU");
             }
@@ -69,10 +69,12 @@ class Add extends Action
                 for ($i = 0; $i < count($arrSkuProducts); $i++){
                     $sku = $arrSkuProducts[$i];
                     $product = $this->initProduct($sku);
+
                     if ($this->validateProduct($product)) {
                         $this->addToCard($product);
                         $this->messageManager->addSuccessMessage(__('Product already add to card'));
                     }
+
                     else {
                         $this->messageManager->addErrorMessage(__('Please, enter the SKU only for Simple product'));
                         $this->messageManager->addErrorMessage(__("SKU is not valid"));

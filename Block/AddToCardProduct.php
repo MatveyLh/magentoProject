@@ -71,4 +71,9 @@ class AddToCardProduct extends Template
 
         return $this->formKey->getFormKey();
     }
+
+    public function orders()
+    {
+
+    }
 }
